@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MVC.Models.Solicitud>
+
+@{
+    ViewData["Title"] = "AceptarDenegar_Solicitudes";
+}
+
+<h1>AceptarDenegar_Solicitudes</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                <a asp-action="Respuesta" asp-route-id="@item.Usuario">Aceptar Solicitud</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
