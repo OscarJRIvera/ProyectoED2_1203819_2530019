@@ -17,5 +17,7 @@ namespace API.Models
         public string Contraseña { get; set; }
         public int edad { get; set; }
         public DateTime fecha { get; set; }
+        public int PublickKey { get; set; }
+        public int SecretRandom { get; set; }
     }
 }

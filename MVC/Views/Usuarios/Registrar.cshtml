@@ -29,13 +29,14 @@
                 <input style=" height: 30px;position: relative; left: 1%" asp-for="edad" class="form-control" />
                 <span style="position: relative; left: 55% "asp-validation-for="edad" class="text-danger"></span>
             </div>
-            <div class="input-group mb-3"style="width: 450px">
+            <div class="input-group mb-3" style="width: 450px">
                 <label style="color:darkblue" asp-for="fecha" class="control-label"></label>
-                <input style=" height: 30px;position: relative; left: 1%"asp-for="fecha" class="form-control" />
-                <span style="position: relative; left: 55% "asp-validation-for="fecha" class="text-danger"></span>
+                <input style=" height: 30px;position: relative; left: 1%" asp-for="fecha" class="form-control" />
+                <span style="position: relative; left: 55% " asp-validation-for="fecha" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input  type="submit" value="Create" class="btn btn-warning" />
+                <input style="width: 100px" type="submit" value="Create" class="btn btn-warning" />
+                <a style="position: absolute; top: 105%; left: 0%; width: 100px" asp-controller="Usuarios" asp-action="Main" class="btn btn-danger" role="button">Regresar</a>
             </div>
         </form>
     </section>

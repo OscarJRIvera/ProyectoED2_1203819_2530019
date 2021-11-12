@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace CIFRADO
 {
-    public class RSA : ICIFRADO
+    public class RSA
     {
         public List<int> ValoresM = new List<int>();
         public void Cifrar(String Ruta, String Ruta2, String ValorL)
@@ -213,6 +213,15 @@ namespace CIFRADO
                 }
             }
             return true;
+        }
+
+        public void Cifrar(string Valor)
+        {
+            
+        }
+
+        public void Decifrar(string Valor)
+        {
         }
     }
 }

@@ -21,5 +21,8 @@ namespace MVC.Models
         public int edad{ get; set; }
         [Required]
         public DateTime fecha { get; set; }
+        public int PublickKey { get; set; }
+        public int SecretRandom { get; set; }
+
     }
 }

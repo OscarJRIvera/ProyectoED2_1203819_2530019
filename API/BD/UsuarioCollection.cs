@@ -15,6 +15,10 @@ namespace API.BD
         {
             Collection = repositorio.db.GetCollection<UsuariosModel>("Usuarios");
         }
+        public int cantidad()
+        {
+            return Collection.Find(Cualquier=>true).ToList().Count();
+        }
         public string insertar(UsuariosModel Usuarioinfo)
         {
             try
@@ -31,6 +35,10 @@ namespace API.BD
             var filter = Builders<UsuariosModel>.Filter.Eq(s => s.Usuario, Usuarioinfo.Usuario);
             var results = Collection.Find(filter).ToList();
             UsuariosModel retornar = new UsuariosModel();
+            if (results.Count == 0)
+            {
+                return default;
+            }
             retornar = results[0];
             return retornar;
         }

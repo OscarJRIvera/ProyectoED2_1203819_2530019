@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CIFRADO
 {
-    public class SDES
+    public class SDES:ICIFRADO 
     {
         List<List<string>> s0 = new List<List<string>>();
         List<List<string>> s1 = new List<List<string>>();
@@ -336,6 +336,64 @@ namespace CIFRADO
 
             }
 
+        }
+
+        public void Cifrar(string Ruta, string Ruta2, string ValorL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Decifrar(string Ruta, string Ruta2, string ValorL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public String Cifrar(string Valor, int llave)
+        {
+            string Rutapermutaciones = Path.GetFullPath("PERMUTACIONES.txt");
+            Permutaciones(Rutapermutaciones);
+            llaves(llave);
+            matrices();
+            List<byte> cifrarbytes = new List<byte>();
+            List<byte> Bytescifrados = new List<byte>();
+            String respuesta = "";
+            foreach (char c in Valor)
+            {
+                cifrarbytes.Add(Convert.ToByte(c));
+            }
+            foreach (byte f in cifrarbytes)
+            {
+                Bytescifrados.Add(Proceso1(f, k1, k2));
+            }
+            foreach(byte f in Bytescifrados)
+            {
+                respuesta = respuesta + Convert.ToChar(f);
+            }
+            return respuesta;
+        }
+
+        public String Decifrar(string Valor,int llave)
+        {
+            string Rutapermutaciones = Path.GetFullPath("PERMUTACIONES.txt");
+            Permutaciones(Rutapermutaciones);
+            llaves(llave);
+            matrices();
+            List<byte> cifrarbytes = new List<byte>();
+            List<byte> Bytescifrados = new List<byte>();
+            String respuesta = "";
+            foreach (char c in Valor)
+            {
+                cifrarbytes.Add(Convert.ToByte(c));
+            }
+            foreach (byte f in cifrarbytes)
+            {
+                Bytescifrados.Add(Proceso1(f, k2, k1));
+            }
+            foreach (byte f in Bytescifrados)
+            {
+                respuesta = respuesta + Convert.ToChar(f);
+            }
+            return respuesta;
         }
     }
 }

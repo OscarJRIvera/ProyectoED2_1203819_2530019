@@ -16,6 +16,5 @@ namespace MVC.Data
 
         public DbSet<MVC.Models.Usuarios> Usuarios { get; set; }
 
-        public DbSet<MVC.Models.Solicitud> Solicitudes { get; set; }
     }
 }
