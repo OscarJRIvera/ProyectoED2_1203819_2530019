@@ -22,18 +22,44 @@ namespace API.BD
         {
             Collection.InsertOneAsync(valor);
         }
-        public List<Mensajes> BuscarMensajesGrupo(ObjectId id)
+        public List<Mensajes> BuscarMensajesE(Mensajes Chat)
         {
-            var filter = Builders<Mensajes>.Filter.Eq(s => s.Id, id);
-            var results = Collection.Find(filter).ToList();
+            var results = Collection.Find(s=>(s.UsuarioE==Chat.UsuarioE&& s.UsuarioR==Chat.UsuarioR)||(s.UsuarioE==Chat.UsuarioR && s.UsuarioR==Chat.UsuarioE)).ToList();
             return results;
         }
-        public List<Mensajes> BuscarMensajesE(string Nombre)
+        public List<Mensajes> BuscarMensajesGrupo(Mensajes Chat)
         {
-            var filter = Builders<Mensajes>.Filter.Eq(s => s.name, Nombre);
-            var results = Collection.Find(filter).ToList();
+            var results = Collection.Find(s => (s.Usuarios.Contains(Chat.UsuarioE)) && (s.GNombre==Chat.GNombre) &&(s.Num==Chat.Num) ).ToList();
             return results;
         }
-       
+        public void EliminarMensajeSolo (Mensajes Chat,ObjectId id)
+        {
+            Collection.ReplaceOne(s => s.Id == id, Chat);
+
+        }
+        public void EliminarMensajeTodos(List<ObjectId> id)
+        {
+            foreach(var k in id)
+            {
+                Collection.DeleteOne(s => s.Id == k);
+            }
+        }
+        public List<Mensajes> BuscarMensaje(Mensajes Chat)
+        {
+            var results = Collection.Find(s => (s.UsuarioE == Chat.UsuarioE && s.UsuarioR == Chat.UsuarioR) && (s.Texto == Chat.Texto)).ToList();
+            return results;
+        }
+        public List<Mensajes> BuscarMensajeGrupo(Mensajes Chat)
+        {
+            var results = Collection.Find(s => (s.UsuarioE == Chat.UsuarioE)   && (s.GNombre == Chat.GNombre) && (s.Num == Chat.Num)).ToList();
+            return results;
+        }
+        public List<Mensajes> Listatotal()
+        {
+            var results = Collection.Find(s => true).ToList();
+            return results;
+        }
+        
+
     }
 }

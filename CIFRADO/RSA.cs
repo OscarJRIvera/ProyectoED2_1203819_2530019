@@ -143,19 +143,12 @@ namespace CIFRADO
             File.Delete(Ruta);
         }
 
-        public string llaves(int p, int q,String RutaPrivate, String RutaPublic,String RutaZip)
+        public string[] llaves(int p, int q)
         {
             int n = p * q;
-            if (n < 255)
-            {
-                return"Error1";
-            }
             int fiN = (p - 1) * (q - 1);
             int coprimo = Coprimo(fiN);
-            if (coprimo == 0)
-            {
-                return "Error";
-            }
+           
             int[,] matriz = new int[2, 2];
             matriz[0, 0] = fiN; matriz[1, 0] = fiN;
             matriz[0, 1] = coprimo; matriz[1, 1] = 1;
@@ -179,28 +172,15 @@ namespace CIFRADO
                 matriz[0, 1] = pos1;
                 matriz[1, 1] = pos2;
             }
+           
+
             string privada = n + "," + matriz[1, 1];
             string publica = n + "," + coprimo;
-            if (privada == publica)
-            {
-                return "Error";
-            }
-            else
-            {
-                ValoresM = new List<int>();
-                File.WriteAllText(RutaPrivate, privada);
-                File.WriteAllText(RutaPublic, publica);
-                if (File.Exists(RutaZip))
-                {
-                    File.Delete(RutaZip);
-                }
-                using (var archive = ZipFile.Open(RutaZip, ZipArchiveMode.Create))
-                {
-                    archive.CreateEntryFromFile(RutaPrivate, Path.GetFileName(RutaPrivate));
-                    archive.CreateEntryFromFile(RutaPublic, Path.GetFileName(RutaPublic));
-                }
-                return "Exito";
-            }
+
+            string[] llaves = new string[2];
+            llaves[0] = privada;
+            llaves[1] = publica;
+            return llaves;
         }
 
         public bool verificarprimo(int n)
@@ -214,14 +194,87 @@ namespace CIFRADO
             }
             return true;
         }
-
-        public void Cifrar(string Valor)
+        public string[] ConseguirLlaves(int publickey)
         {
-            
+            int[] pyq = new int[2];
+            while (publickey < 16)
+            {
+                publickey++;
+            }
+            int primeroprimo = publickey;
+            while (verificarprimo(primeroprimo) == false)
+            {
+                primeroprimo++;
+            }
+            pyq[0] = primeroprimo;
+            int segundoprimo = primeroprimo + 1;
+            while (verificarprimo(segundoprimo) == false)
+            {
+                segundoprimo++;
+            }
+            pyq[1] = segundoprimo;
+            string[] respuesta = llaves(pyq[0], pyq[1]); 
+            return respuesta;
         }
 
-        public void Decifrar(string Valor)
+        public string Cifrar(string Texto,int  publickey)
         {
+            string[] llaves2 = ConseguirLlaves(publickey);
+            string[] publicllave = llaves2[0].Split(",");
+            int doe = Convert.ToInt32(publicllave[1]);
+            int doe2 = Convert.ToInt32(publicllave[0]);
+            string respuesta = "";
+            foreach(var c in Texto)
+            {
+                byte[] valornuevo = BitConverter.GetBytes(c);
+                foreach(byte bytes in valornuevo)
+                {
+                    if (bytes != 0)
+                    {
+                        BigInteger valorelevado = BigInteger.ModPow(bytes, (BigInteger)doe, (BigInteger)doe2);
+                        byte[] arreglo = BitConverter.GetBytes((long)valorelevado);
+                        foreach (var l in arreglo)
+                        {
+                            respuesta = respuesta + Convert.ToChar(l);
+                        }
+                    }
+                   
+                }
+                
+                //byte valor= Convert.ToByte(c);
+                //BigInteger valorelevado = BigInteger.ModPow(valor, (BigInteger)doe, (BigInteger)doe2);
+                //byte[] arreglo = BitConverter.GetBytes((long)valorelevado);
+                //foreach (var l in arreglo)
+                //{
+                //    respuesta = respuesta + Convert.ToChar(l);
+                //}
+
+            }
+            return respuesta;
+        }
+
+        public string Decifrar(string Texto, int publickey)
+        {
+            string[] llaves2 = ConseguirLlaves(publickey);
+            string[] privatellave = llaves2[1].Split(",");
+            int doe = Convert.ToInt32(privatellave[1]);
+            int doe2 = Convert.ToInt32(privatellave[0]);
+            string respuesta = "";
+            List<byte> ochobit = new List<byte>();
+            foreach(var c in Texto)
+            {
+                byte valor = Convert.ToByte(c);
+                ochobit.Add(valor);
+                if (ochobit.ToArray().Length == 8)
+                {
+                    int bit = BitConverter.ToInt32(ochobit.ToArray());
+                    BigInteger valorelevado = BigInteger.ModPow(bit, (BigInteger)doe, (BigInteger)doe2);
+                    byte escribirbyte= Convert.ToByte((long)valorelevado);
+                    respuesta = respuesta + Convert.ToChar(escribirbyte);
+                    ochobit = new List<byte>();
+                }
+            }
+            return respuesta;
         }
     }
 }

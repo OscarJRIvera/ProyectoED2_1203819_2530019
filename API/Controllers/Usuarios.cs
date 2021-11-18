@@ -33,9 +33,7 @@ namespace API.Controllers
         [HttpPost("Contactos")]
         public IActionResult Contactos(UsuariosModel Usuario)
         {
-            Contactos temp = new Contactos();
-            temp.Usuario = Usuario.Usuario;
-            List<Contactos> respuesta =db2.Buscar(temp);
+            List<Contactos> respuesta =db2.Buscar(Usuario);
             return Ok(respuesta);
            
         }
@@ -112,5 +110,33 @@ namespace API.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost("ContactoGrupo")]
+        public IActionResult ContactoGrupo(Contactos Grupo) {
+            List<Contactos> temp = new List<Contactos>();
+            temp = db2.BuscarGrupo(Grupo);
+            return Ok(temp);
+        }
+        [HttpPost("RetornarGrupo")]
+        public IActionResult RetornarGrupo(Contactos Grupo)
+        {
+            var x = db2.BuscarGrupoEsp(Grupo);
+            return Ok(x);
+        }
+        [HttpPost("BuscuarGruposUsuario")]
+        public IActionResult BuscuarGruposUsuario(UsuariosModel User)
+        {
+            List<Contactos> temp = new List<Contactos>();
+            temp = db2.BuscarGruposUsuario(User.Usuario);
+            return Ok(temp);
+        }
+        [HttpPost("ActualizarContactoGrupo")]
+        public IActionResult ActualizarContactoGrupo(Contactos valor)
+        {
+            var x = db2.BuscarGrupoEsp(valor);
+            valor.Id = x.Id;
+            db2.ActualizarContactoGrupo(valor);
+            return Ok();
+        }
+       
     }
 }

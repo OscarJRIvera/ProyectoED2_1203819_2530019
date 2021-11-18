@@ -36,10 +36,29 @@ namespace API.BD
             retornar = results2[0];
             return retornar;
         }
-        public List<Contactos> Buscar(Contactos valor)
+        public List<Contactos> Buscar(UsuariosModel valor)
         {
-            var results = Collection.Find(s => s.Usuario == valor.Usuario || s.Usuario2 == valor.Usuario).ToList();
+            var results = Collection.Find(s => s.Usuario == valor.Usuario || s.Usuario2 == valor.Usuario || s.Usuarios.Contains(valor.Usuario)).ToList();
             return results;
+        }
+        public List<Contactos> BuscarGrupo(Contactos Valor)
+        {
+            var results = Collection.Find(s => s.nombre == Valor.nombre).ToList();
+            return results;
+        }
+        public Contactos BuscarGrupoEsp(Contactos Valor)
+        {
+            var results = Collection.Find(s => s.nombre == Valor.nombre && s.num==Valor.num).First();
+            return results;
+        }
+        public List<Contactos> BuscarGruposUsuario(string valor)
+        {
+            var x = Collection.Find(s=>s.Usuarios.Contains(valor)).ToList();
+            return x;
+        }
+        public void ActualizarContactoGrupo(Contactos valor)
+        {
+            Collection.ReplaceOne(s => s.nombre == valor.nombre && s.num == valor.num,valor);
         }
     }
 }
