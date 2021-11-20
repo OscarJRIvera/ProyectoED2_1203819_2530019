@@ -24,22 +24,18 @@ namespace MVC.Controllers
         {
             x = env;
         }
-        public ActionResult EntradaUsuarioActivo(string nombre,int Num,string valor,string RespuestaAgregarGrupo)
+        public ActionResult EntradaUsuarioActivo(string nombre, int Num, string valor, string RespuestaAgregarGrupo, string VerficiarTextofiltro)
         {
-            
-            if (RespuestaAgregarGrupo!=null)
+
+            if (RespuestaAgregarGrupo != null)
             {
                 ViewBag.RespuestaAgregarGrupo = RespuestaAgregarGrupo;
                 ViewBag.Tipo = true;
             }
             Usuarios UsuarioActivo = UsuarioActivoFuncion();
-            //Usuarios UsuarioActivo = new Usuarios();
-            //UsuarioActivo.Usuario = HttpContext.Session.GetString("Usuario");
-            //HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Usuarios/Busqueda", UsuarioActivo).Result;
-            //UsuarioActivo = response.Content.ReadAsAsync<Usuarios>().Result;
-            if (UsuarioActivo == null)
+            while (UsuarioActivo == null)
             {
-                 UsuarioActivo = UsuarioActivoFuncion();
+                UsuarioActivo = UsuarioActivoFuncion();
             }
             HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Usuarios/Contactos", UsuarioActivo).Result;
             List<Contacto> listacontactos = response.Content.ReadAsAsync<List<Contacto>>().Result;
@@ -64,24 +60,42 @@ namespace MVC.Controllers
                 Temp.UsuarioE = UsuarioActivo.Usuario;
                 Temp.GNombre = nombre;
                 Temp.Num = Num;
-                response = RutaApi.Api.PostAsJsonAsync("Mensajes2/BuscarMensajes", Temp).Result;
-                mensajes = response.Content.ReadAsAsync<List<Mensajes>>().Result;
+                if (VerficiarTextofiltro != null)
+                {
+                    Temp.Texto = VerficiarTextofiltro;
+                    response = RutaApi.Api.PostAsJsonAsync("Mensajes2/FiltroMensajesGrupo", Temp).Result;
+                    mensajes = response.Content.ReadAsAsync<List<Mensajes>>().Result;
+                }
+                else
+                {
+                    response = RutaApi.Api.PostAsJsonAsync("Mensajes2/BuscarMensajes", Temp).Result;
+                    mensajes = response.Content.ReadAsAsync<List<Mensajes>>().Result;
+                }
             }
             else
             {
-                if (valor !=null)
+                if (valor != null)
                 {
                     HttpContext.Session.SetString("NGrupo", "");
                     HttpContext.Session.SetString("Num", "");
                     HttpContext.Session.SetString("Mensajeu2", valor);
                     Temp.UsuarioE = UsuarioActivo.Usuario;
                     Temp.UsuarioR = valor;
-                    response = RutaApi.Api.PostAsJsonAsync("Mensajes2/BuscarMensajes", Temp).Result;
-                    mensajes = response.Content.ReadAsAsync<List<Mensajes>>().Result;
+                    if (VerficiarTextofiltro != null)
+                    {
+                        Temp.Texto = VerficiarTextofiltro;
+                        response = RutaApi.Api.PostAsJsonAsync("Mensajes2/FiltroMensajes", Temp).Result;
+                        mensajes = response.Content.ReadAsAsync<List<Mensajes>>().Result;
+                    }
+                    else
+                    {
+                        response = RutaApi.Api.PostAsJsonAsync("Mensajes2/BuscarMensajes", Temp).Result;
+                        mensajes = response.Content.ReadAsAsync<List<Mensajes>>().Result;
+                    }
                 }
                 else
                 {
-                    HttpContext.Session.SetString("NGrupo","");
+                    HttpContext.Session.SetString("NGrupo", "");
                     HttpContext.Session.SetString("Num", "");
                     HttpContext.Session.SetString("Mensajeu2", "");
                 }
@@ -92,7 +106,7 @@ namespace MVC.Controllers
             }
             else
             {
-                foreach(var mens in mensajes)
+                foreach (var mens in mensajes)
                 {
                     if (mens.Esconder == true && mens.UsuarioE == UsuarioActivo.Usuario)
                     {
@@ -107,7 +121,7 @@ namespace MVC.Controllers
             ViewBag.Mensajes = mensajes2;
             ViewBag.Contactos = ListaCont;
             ViewBag.Comprobar = UsuarioActivo.Usuario;
-            
+
             return View("Entrada");
         }
         public ActionResult Solicitudes()
@@ -116,13 +130,16 @@ namespace MVC.Controllers
             //Usuarios UsuarioActivo = new Usuarios();
             //UsuarioActivo.Usuario = HttpContext.Session.GetString("Usuario");
             //HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Usuarios/Busqueda", UsuarioActivo).Result;
-
+            while (UsuarioActivo == null)
+            {
+                UsuarioActivo = UsuarioActivoFuncion();
+            }
             HttpResponseMessage response2 = RutaApi.Api.PostAsJsonAsync("Usuarios/Contactos", UsuarioActivo).Result;
             List<Contacto> listacontactos = response2.Content.ReadAsAsync<List<Contacto>>().Result;
             List<Contacto> listaespera = new List<Contacto>();
             foreach (var k in listacontactos)
             {
-                if (k.estado == false && k.Usuario!=UsuarioActivo.Usuario)
+                if (k.estado == false && k.Usuario != UsuarioActivo.Usuario)
                 {
                     listaespera.Add(k);
                 }
@@ -130,10 +147,10 @@ namespace MVC.Controllers
             ViewBag.Comprueba = UsuarioActivo.Usuario;
             ViewBag.Solicitudes = listaespera;
             ViewBag.Mensaje = HttpContext.Session.GetString("RespuestaAgregar");
-            HttpContext.Session.SetString("RespuestaAgregar","");
+            HttpContext.Session.SetString("RespuestaAgregar", "");
             return View("Solicitudes");
         }
-        
+
         public ActionResult Agregar(string BuscarContacto)
         {
             Usuarios UsuarioActivo = UsuarioActivoFuncion();
@@ -147,7 +164,7 @@ namespace MVC.Controllers
             HttpResponseMessage response2 = RutaApi.Api.PostAsJsonAsync("Usuarios/Busqueda", UsuarioBuscar).Result;
             UsuarioBuscar = response2.Content.ReadAsAsync<Usuarios>().Result;
             string respuesta = "";
-            if (UsuarioBuscar== null)
+            if (UsuarioBuscar == null)
             {
                 respuesta = "Usuario No existe";
                 HttpContext.Session.SetString("RespuestaAgregar", respuesta);
@@ -164,7 +181,7 @@ namespace MVC.Controllers
                 Contacto temp = new Contacto();
                 temp.Usuario = UsuarioActivo.Usuario;
                 temp.Usuario2 = UsuarioBuscar.Usuario;
-                HttpResponseMessage response3 = RutaApi.Api.PostAsJsonAsync("Usuarios/BusquedaContacto",temp).Result;
+                HttpResponseMessage response3 = RutaApi.Api.PostAsJsonAsync("Usuarios/BusquedaContacto", temp).Result;
                 Contacto Contacto = response3.Content.ReadAsAsync<Contacto>().Result;
                 Contacto Actualizar = new Contacto();
                 Actualizar.Usuario = UsuarioActivo.Usuario;
@@ -204,6 +221,10 @@ namespace MVC.Controllers
         public ActionResult Aceptar(string valor)
         {
             Usuarios UsuarioActivo = UsuarioActivoFuncion();
+            while (UsuarioActivo == null)
+            {
+                UsuarioActivo = UsuarioActivoFuncion();
+            }
             //Usuarios UsuarioActivo = new Usuarios();
             //UsuarioActivo.Usuario = HttpContext.Session.GetString("Usuario");
             //HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Usuarios/Busqueda", UsuarioActivo).Result;
@@ -213,7 +234,8 @@ namespace MVC.Controllers
             UsuarioAceptar.Usuario = valor;
             HttpResponseMessage response2 = RutaApi.Api.PostAsJsonAsync("Usuarios/Busqueda", UsuarioAceptar).Result;
             UsuarioAceptar = response2.Content.ReadAsAsync<Usuarios>().Result;
-            if (UsuarioAceptar != null) {
+            if (UsuarioAceptar != null)
+            {
                 Contacto temp = new Contacto();
                 temp.Usuario = UsuarioActivo.Usuario;
                 temp.Usuario2 = UsuarioAceptar.Usuario;
@@ -239,7 +261,7 @@ namespace MVC.Controllers
             }
 
 
-           return RedirectToAction("Solicitudes");
+            return RedirectToAction("Solicitudes");
         }
         public ActionResult Main()
         {
@@ -259,11 +281,11 @@ namespace MVC.Controllers
             }
             HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Usuarios/Ingreso", UsuarioInfo).Result;
             var x = response.Content.ReadAsStringAsync().Result;
-            if (x == "Exito" && HttpContext.Session.GetString("Usuario")=="")
+            if (x == "Exito" && HttpContext.Session.GetString("Usuario") == "")
             {
                 HttpContext.Session.SetString("Usuario", UsuarioInfo.Usuario);
                 HttpContext.Session.SetString("RespuestaAgregar", "");
-                return RedirectToAction("EntradaUsuarioActivo",null);
+                return RedirectToAction("EntradaUsuarioActivo", null);
             }
             return RedirectToAction("Login");
         }
@@ -275,8 +297,8 @@ namespace MVC.Controllers
         [HttpPost]
         public ActionResult Registrar([Bind("Usuario,Nombre,Apellido,Contraseña,edad,fecha")] Usuarios UsuarioInfo)
         {
-            HttpResponseMessage response =  RutaApi.Api.PostAsJsonAsync("Usuarios/Nuevo", UsuarioInfo).Result;
-            var x =  response.Content.ReadAsStringAsync().Result;
+            HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Usuarios/Nuevo", UsuarioInfo).Result;
+            var x = response.Content.ReadAsStringAsync().Result;
             if (x == "Agregado con exito")
             {
                 return View("Main");
@@ -287,9 +309,13 @@ namespace MVC.Controllers
             }
             return RedirectToAction("Registrar");
         }
-        public ActionResult MandarMensaje(string texto,IFormFile file)
+        public async Task<ActionResult> MandarMensaje(string texto, IFormFile file)
         {
             Usuarios UsuarioActivo = UsuarioActivoFuncion();
+            while (UsuarioActivo == null)
+            {
+                UsuarioActivo = UsuarioActivoFuncion();
+            }
             Mensajes MensajeNuevo = new Mensajes();
             if (texto == null || texto == "")
             {
@@ -314,28 +340,34 @@ namespace MVC.Controllers
                 string cantidad;
                 if (listaR != null)
                 {
-                    cantidad = Convert.ToString(listaR.Count()) +1;
+                    cantidad = Convert.ToString(listaR.Count() + 1);
                 }
                 else
                 {
                     cantidad = "1";
                 }
                 ArchivosValores archivo = new ArchivosValores();
-                archivo.Nombre = file.FileName;
-                MensajeNuevo.FileString = Path.Combine(x.ContentRootPath,"Archivos", cantidad + file.FileName);
-                using (var x= new FileStream(MensajeNuevo.FileString, FileMode.Create))
+                archivo.Nombre = cantidad + file.FileName;
+                archivo.NombreOriginal = file.FileName;
+                string ruta = Path.Combine(x.ContentRootPath, "Archivos", cantidad + file.FileName);
+                using (var x = new FileStream(ruta, FileMode.Create))
                 {
-                    file.CopyToAsync(x);
+                    await file.CopyToAsync(x);
                 }
-                //archivo.Ruta = MensajeNuevo.FileString;
+
                 MensajeNuevo.FileString = cantidad + file.FileName;
                 MensajeNuevo.FileStringOriginal = file.FileName;
-                RutaApi.Api.PostAsJsonAsync("ArchivosController/AgregarArchivo", archivo);
+                FileStream Archivobyte = System.IO.File.OpenRead(ruta);
+                byte[] archivoinfo = new byte[Archivobyte.Length];
+                Archivobyte.Read(archivoinfo, 0, archivoinfo.Length);
+                archivo.archivo = archivoinfo;
+                Archivobyte.Close();
 
+                await RutaApi.Api.PostAsJsonAsync("Mensajes2/Comprimir", archivo);
             }
-            
 
-            if (HttpContext.Session.GetString("Mensajeu2")=="")
+
+            if (HttpContext.Session.GetString("Mensajeu2") == "")
             {
                 if (HttpContext.Session.GetString("NGrupo") != "")
                 {
@@ -346,17 +378,17 @@ namespace MVC.Controllers
                     Grupo.num = Num;
                     MensajeNuevo.GNombre = nombre;
                     MensajeNuevo.Num = Num;
-                    HttpResponseMessage response= RutaApi.Api.PostAsJsonAsync("Usuarios/RetornarGrupo", Grupo).Result;
+                    HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Usuarios/RetornarGrupo", Grupo).Result;
                     Contacto GrupoValores = response.Content.ReadAsAsync<Contacto>().Result;
                     MensajeNuevo.Usuarios = GrupoValores.Usuarios;
-                    RutaApi.Api.PostAsJsonAsync("Mensajes2/MandarMensaje", MensajeNuevo);
-                    return RedirectToAction("EntradaUsuarioActivo", new { nombre =Grupo.nombre,Num=Grupo.num });
+                    await RutaApi.Api.PostAsJsonAsync("Mensajes2/MandarMensaje", MensajeNuevo);
+                    return RedirectToAction("EntradaUsuarioActivo", new { nombre = Grupo.nombre, Num = Grupo.num });
                 }
             }
             else
             {
                 MensajeNuevo.UsuarioR = HttpContext.Session.GetString("Mensajeu2");
-                RutaApi.Api.PostAsJsonAsync("Mensajes2/MandarMensaje", MensajeNuevo);
+                await RutaApi.Api.PostAsJsonAsync("Mensajes2/MandarMensaje", MensajeNuevo);
                 return RedirectToAction("EntradaUsuarioActivo", new { valor = MensajeNuevo.UsuarioR });
             }
 
@@ -371,9 +403,9 @@ namespace MVC.Controllers
             UsuarioActivo = response.Content.ReadAsAsync<Usuarios>().Result;
             return UsuarioActivo;
         }
-        public ActionResult EliminarMensaje(string Usuario,string Usuario2,string nombre, int num,string texto,DateTime fecha, bool Paratodos)
+        public ActionResult EliminarMensaje(string Usuario, string Usuario2, string nombre, int num, string texto, DateTime fecha, bool Paratodos)
         {
-            
+
             Usuarios UsuarioActivo = UsuarioActivoFuncion();
             Mensajes temp = new Mensajes();
             temp.UsuarioE = Usuario;
@@ -394,10 +426,10 @@ namespace MVC.Controllers
             {
                 HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Mensajes2/EliminarSolo", temp).Result;
             }
-            return RedirectToAction("EntradaUsuarioActivo",new {nombre= nombre, Num= num,valor= Usuario2 });
+            return RedirectToAction("EntradaUsuarioActivo", new { nombre = nombre, Num = num, valor = Usuario2 });
 
         }
-       
+
         public ActionResult CrearGrupo2(string valor)
         {
             if (valor == null)
@@ -405,6 +437,10 @@ namespace MVC.Controllers
                 return RedirectToAction("EntradaUsuarioActivo");
             }
             Usuarios UsuarioActivo = UsuarioActivoFuncion();
+            while (UsuarioActivo == null)
+            {
+                UsuarioActivo = UsuarioActivoFuncion();
+            }
             Contacto Newgrupo = new Contacto();
             Newgrupo.nombre = valor;
             //Newgrupo.Usuario = UsuarioActivo.Usuario;
@@ -442,9 +478,9 @@ namespace MVC.Controllers
                 {
                     response = RutaApi.Api.PostAsJsonAsync("Usuarios/BuscuarGruposUsuario", UsuarioBuscar).Result;
                     List<Contacto> Contacto = response.Content.ReadAsAsync<List<Contacto>>().Result;
-                    foreach(var k in Contacto)
+                    foreach (var k in Contacto)
                     {
-                        if(k.nombre==nombre && k.num == Num)
+                        if (k.nombre == nombre && k.num == Num)
                         {
                             respuesta = "Usuario ya pertenece al grupo";
                             return RedirectToAction("EntradaUsuarioActivo", new { RespuestaAgregarGrupo = respuesta, nombre = nombre, Num = Num });
@@ -461,15 +497,40 @@ namespace MVC.Controllers
                 }
             }
 
-            return RedirectToAction("EntradaUsuarioActivo", new { RespuestaAgregarGrupo = respuesta, nombre = nombre, Num = Num }) ;
+            return RedirectToAction("EntradaUsuarioActivo", new { RespuestaAgregarGrupo = respuesta, nombre = nombre, Num = Num });
         }
-        public ActionResult DescargarArchivos(string Usuario, string Usuario2, string nombre, int num,string ruta)
+        public ActionResult DescargarArchivos(string Usuario, string Usuario2, string nombre, int num, string NombreArchivo, string NombreOriginal)
         {
-            byte[] prueba = new byte[4];
-            prueba[0] = 43;
-            prueba[2] = 43;
-            prueba[3] = 5;
-            return File(prueba, System.Net.Mime.MediaTypeNames.Application.Octet, "Archivofinal.txt");
+            if (F.verificar == false)
+            {
+                F.verificar = true;
+                ArchivosValores ArchivoDescargar = new ArchivosValores();
+                ArchivoDescargar.Nombre = NombreArchivo;
+                ArchivoDescargar.NombreOriginal = NombreOriginal;
+                HttpResponseMessage response = RutaApi.Api.PostAsJsonAsync("Mensajes2/Descomprimir", ArchivoDescargar).Result;
+                ArchivoDescargar = response.Content.ReadAsAsync<ArchivosValores>().Result;
+                F.verificar = false;
+                return File(ArchivoDescargar.archivo, System.Net.Mime.MediaTypeNames.Application.Octet, NombreOriginal);
+            }
+            else
+            {
+                return Ok();
+            }
+
+        }
+        public ActionResult BuscarMensaje(string mensaje)
+        {
+            string nombre = HttpContext.Session.GetString("NGrupo");
+            if (nombre != "")
+            {
+                int Num = Convert.ToInt32(HttpContext.Session.GetString("Num"));
+                return RedirectToAction("EntradaUsuarioActivo", new { VerficiarTextofiltro = mensaje, nombre = nombre, Num = Num });
+            }
+            else
+            {
+                string Usuario2 = HttpContext.Session.GetString("Mensajeu2");
+                return RedirectToAction("EntradaUsuarioActivo", new { VerficiarTextofiltro = mensaje, valor = Usuario2 });
+            }
         }
 
 

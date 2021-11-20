@@ -18,7 +18,7 @@
                     <div class="headind_srch">
                         <div class="recent_heading">
                             <h4 style="position: relative; top: 5%;">Crear Grupo</h4>
-                            
+
                         </div>
                         <form asp-controller="Usuarios" asp-action="CrearGrupo2">
                             <div class="form-group">
@@ -109,12 +109,12 @@
                                     <div class="form-group">
                                         @if (ViewBag.RespuestaAgregarGrupo != null)
                                         {
-                                         <input class="form-control" placeholder="@ViewBag.RespuestaAgregarGrupo" name="UsuarioAgregar" />
+                                            <input class="form-control" placeholder="@ViewBag.RespuestaAgregarGrupo" name="UsuarioAgregar" />
 
                                         }
                                         else
                                         {
-                                         <input class="form-control" placeholder="Agregar Usuario" name="UsuarioAgregar" />
+                                            <input class="form-control" placeholder="Agregar Usuario" name="UsuarioAgregar" />
 
                                         }
                                         <button class="msg_send_btn" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
@@ -123,6 +123,15 @@
 
                             </div>
                         }
+                    <div class="type_msg">
+                        <form asp-controller="Usuarios" asp-action="BuscarMensaje">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Filtro" name="mensaje" />
+                                <button class="msg_send_btn" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+                            </div>
+                        </form>
+
+                    </div>
                         @foreach (var f in ViewBag.Mensajes)
                         {
 
@@ -145,7 +154,7 @@
                                                     @if (f.FileString != null)
                                                     {
                                                         @f.FileStringOriginal
-                                                        @Html.ActionLink("Descargar", "DescargarArchivos", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num,ruta= f.Ruta})
+                                                        @Html.ActionLink("Descargar", "DescargarArchivos", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num, NombreOriginal = f.FileStringOriginal, NombreArchivo = f.FileString })
                                                     }
                                                 </small>
 
@@ -169,10 +178,10 @@
                                                 @if (f.FileString != null)
                                                 {
                                                     @f.FileStringOriginal
-                                                    @Html.ActionLink("Descargar", "DescargarArchivos", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num, ruta = f.Ruta })
+                                                    @Html.ActionLink("Descargar", "DescargarArchivos", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num, NombreOriginal = f.FileStringOriginal, NombreArchivo = f.FileString })
                                                 }
                                             </small>
-                                           
+
                                         </p>
 
                                         <small>

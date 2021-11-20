@@ -23,6 +23,5 @@ namespace MVC.Models
         public int publickey1 { get; set; }
         public List<string> Usuarios { get; set; }
         public string FileString { get; set; }
-        public string Ruta { get; set; }
     }
 }

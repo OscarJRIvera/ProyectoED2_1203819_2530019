@@ -11,8 +11,10 @@ namespace API.Models.Data
         public ICIFRADO CifrarSDES;
         public DiffieHellman Llaves;
         public RSA CifrarRSA;
+        public LZWComp LzwComp;
         private Singleton()
         {
+            LzwComp = new LZWComp();
             CifrarSDES = new SDES();
             Llaves = new DiffieHellman();
             CifrarRSA = new RSA();

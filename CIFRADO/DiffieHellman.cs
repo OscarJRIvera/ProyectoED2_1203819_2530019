@@ -5,11 +5,11 @@ using System.Numerics;
 
 namespace CIFRADO
 {
-     public class DiffieHellman
+    public class DiffieHellman
     {
         public int P = 449;
         public int G = 11;
-        public int Publickey(int secretrandom) 
+        public int Publickey(int secretrandom)
         {
             BigInteger Valor = BigInteger.ModPow(G, (BigInteger)secretrandom, (BigInteger)P);
             int respuesta = (int)Valor;

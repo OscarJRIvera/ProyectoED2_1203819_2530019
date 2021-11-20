@@ -20,5 +20,11 @@
     <ProjectReference Include="..\CIFRADO\CIFRADO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ArchivosComp\" />
+    <Folder Include="ArchivosDesc\" />
+    <Folder Include="ArchivosOriginal\" />
+  </ItemGroup>
+
 
 </Project>
