@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CIFRADO
 {
-    public class SDES:ICIFRADO 
+    public class SDES : ICIFRADO
     {
         List<List<string>> s0 = new List<List<string>>();
         List<List<string>> s1 = new List<List<string>>();
@@ -365,14 +365,14 @@ namespace CIFRADO
             {
                 Bytescifrados.Add(Proceso1(f, k1, k2));
             }
-            foreach(byte f in Bytescifrados)
+            foreach (byte f in Bytescifrados)
             {
                 respuesta = respuesta + Convert.ToChar(f);
             }
             return respuesta;
         }
 
-        public String Decifrar(string Valor,int llave)
+        public String Decifrar(string Valor, int llave)
         {
             string Rutapermutaciones = Path.GetFullPath("PERMUTACIONES.txt");
             Permutaciones(Rutapermutaciones);
