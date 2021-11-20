@@ -38,7 +38,8 @@
                                         <div class="chat_people">
                                             <div class="chat_img"> <img src="~/images/Grupos.png" alt="sunil"> </div>
                                             <div class="chat_ib">
-                                                <h5>@k.nombre <a style="left: 35.3%; top: 15%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new {nombre = k.nombre,Num=k.num})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                                <h5>@k.nombre </h5>
+                                                <a style="left: 35.3%; top: 17.5%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new {nombre = k.nombre,Num=k.num})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                                             </div>
 
                                         </div>
@@ -51,11 +52,13 @@
                                                 @if (k.Usuario == ViewBag.Comprobar)
                                                 {
                                                     <h5>@k.Usuario2 </h5>
-                                                    <a style="left: 35.3%; top: 15%; position: absolute " href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario2})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                                    <a style="left: 35.3%; top: 17.5%; position: absolute " href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario2})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                                    
                                                 }
                                                 else
                                                 {
-                                                    <h5>@k.Usuario </h5><a style="left: 35.3%; top: 15%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                                    <h5>@k.Usuario </h5>
+                                                    <a style="left: 35.3%; top: 17.5%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
 
                                                 }
 
@@ -70,7 +73,9 @@
                                         <div class="chat_people">
                                             <div class="chat_img"> <img src="~/images/Grupos.png" alt="sunil"> </div>
                                             <div class="chat_ib">
-                                                <h5>@k.nombre <a style="left: 35.3%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new {nombre = k.nombre,Num=k.num})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                                <h5>@k.nombre </h5>
+                                                <a style="left: 35.3%;  position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new {nombre = k.nombre,Num=k.num})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+
                                             </div>
 
                                         </div>
@@ -87,7 +92,8 @@
                                                 }
                                                 else
                                                 {
-                                                    <h5>@k.Usuario <a style="left: 35.3%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                                    <h5>@k.Usuario </h5>
+                                                    <a style="left: 35.3%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
                                                 }
 
                                             </div>
