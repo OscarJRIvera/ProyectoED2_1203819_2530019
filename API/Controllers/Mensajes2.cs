@@ -260,6 +260,7 @@ namespace API.Controllers
         [HttpPost("Comprimir")]
         public IActionResult Comprimir(ArchivosValores Archivo)
         {
+            LZWComp comprimir = new LZWComp();
             var nombrecomp = Archivo.Nombre.Split(".");
             string RutaComprimido = Path.GetFullPath("ArchivosComp\\" + nombrecomp[0] + ".lzw");
             string RutaOriginal = Path.GetFullPath("ArchivosOriginal\\" + Archivo.NombreOriginal);
@@ -270,12 +271,13 @@ namespace API.Controllers
             escribir.Close();
             ArchivoComp.Close();
             ArchivoOriginal.Close();
-            F.LzwComp.Comprimir(RutaOriginal, RutaComprimido);
+            comprimir.Comprimir(RutaOriginal, RutaComprimido);
             return Ok();
         }
         [HttpPost("Descomprimir")]
         public IActionResult Descomprimir(ArchivosValores Archivo)
         {
+            LZWComp descomprimir = new LZWComp();
             ArchivosValores nuevoArchivo = new ArchivosValores();
             nuevoArchivo.Nombre = Archivo.Nombre;
             nuevoArchivo.NombreOriginal = Archivo.NombreOriginal;
@@ -284,7 +286,7 @@ namespace API.Controllers
             string RutaDescomprimido = Path.GetFullPath("ArchivosDesc\\" + Archivo.NombreOriginal);
             FileStream ArchivoDescomprimido = new FileStream(RutaDescomprimido, FileMode.OpenOrCreate);
             ArchivoDescomprimido.Close();
-            F.LzwComp.Descomprimir(RutaComprimido, RutaDescomprimido);
+            descomprimir.Descomprimir(RutaComprimido, RutaDescomprimido);
             var archivodesc = System.IO.File.OpenRead(RutaDescomprimido);
             byte[] Archivoinfo = new byte[archivodesc.Length];
             archivodesc.Read(Archivoinfo, 0, Archivoinfo.Length);
