@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace API.BD
         public IMongoDatabase db;
         public MongoDB()
         {
-            client =new MongoClient("mongodb://localhost:27017");
+            client = new MongoClient("mongodb://localhost:27017");
             db = client.GetDatabase("MensajesRelevantes");
         }
     }

@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Solicitudes";
 }
 <a style="position: absolute; top: 8%; left: 40%; width: 300px" asp-controller="Usuarios" asp-action="EntradaUsuarioActivo" class="btn btn-danger" role="button">Regresar</a>
@@ -6,7 +6,10 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <div class="container bootstrap snippets bootdey">
 
+        @if (ViewBag.Mensaje == "") {
 
+            ViewBag.Mensaje = "Agregar Contacto";
+         }
 
 
 
@@ -14,15 +17,12 @@
 
         <div class="panel panel-default">
             <div class="panel-body p-t-0">
-                <div class="input-group">
-                    <input type="text" id="BuscarContacto" name="BuscarContacto" class="form-control" placeholder="Agregar Contacto">
-                    <span class="input-group-btn">
-                        <a asp-controller="Usuarios" asp-action="Login" class="btn btn-effect-ripple btn-primary" role="button"><i class="fa fa-search"></i></a>
-
-
-
-                    </span>
-                </div>
+                <form asp-controller="Usuarios" asp-action="Agregar">
+                    <div class="form-group">
+                        <input class="form-control" name="BuscarContacto" placeholder="@ViewBag.Mensaje" />
+                    </div>
+                    <button type="submit" style="color:navy;position:absolute;  top: 1%;left:90%"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </form>
             </div>
             @foreach (var item in (ViewBag.Solicitudes))
             {
@@ -31,18 +31,36 @@
                         <div class="panel" style="position: relative; top: 120%; left: 50%">
                             <div class="panel-body p-t-10">
                                 <div class="media-main">
-                                    <a class="pull-left" href="#">
-                                        <img class="thumb-lg img-circle bx-s" src="~/images/Solicitud.png" alt="">
-                                    </a>
-                                    <div class="pull-right btn-group-sm">
-                                        <a href="Aceptar" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat" name="@item.Usuario">
-                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                    @if (item.Usuario2 == ViewBag.Comprueba)
+                                    {
+                                        <a class="pull-left" href="#">
+                                            <img class="thumb-lg img-circle bx-s" src="~/images/Solicitud.png" alt="">
                                         </a>
-                                    </div>
-                                    <div class="info">
-                                        <h4>@item.Usuario</h4>
-                                        <h4>@item.Nombre @item.Apellido</h4>
-                                    </div>
+                                        <div class="pull-right btn-group-sm">
+                                            <a href="@Url.Action("Aceptar","Usuarios",new { valor = item.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat">
+                                                <i class="fa fa" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                        <div class="info">
+                                            <h4>@item.Usuario</h4>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a class="pull-left" href="#">
+                                            <img class="thumb-lg img-circle bx-s" src="~/images/Solicitud.png" alt="">
+                                        </a>
+                                        <div class="pull-right btn-group-sm">
+                                            <a href="@Url.Action("Aceptar","Usuarios",new { valor = item.Usuario2})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat">
+                                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                        <div class="info">
+                                            <h4>@item.Usuario2</h4>
+                                        </div>
+
+                                    }
+
                                 </div>
                             </div>
                         </div>

@@ -1,81 +1,204 @@
-﻿<a style="position: absolute; top: 8%; left: 40%; width: 300px" asp-controller="Usuarios" asp-action="Main" class="btn btn-danger" role="button">Logout</a>
-<a style="position: absolute; top:15%; left: 40%; width: 300px" asp-controller="Usuarios" asp-action="Solicitudes" class="btn btn-warning" role="button">Solicitudes</a>
-<div class="form-group">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <div class="container bootstrap snippets bootdey">
+<a style="position: absolute; top: 0.5%; left: 70%; width: 300px" asp-controller="Usuarios" asp-action="Main" class="btn btn-danger" role="button">Logout</a>
+<a style="position: absolute; top:0.5%; left: 10%; width: 300px" asp-controller="Usuarios" asp-action="Solicitudes" class="btn btn-warning" role="button">Solicitudes</a>
+<di<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<html>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="Container">
+        <h3 class="text-center">Chats</h3>
+        <div class="messaging">
+            <div class="inbox_msg">
+                <div class="inbox_people">
+                    <div class="headind_srch">
+                        <div class="recent_heading">
+                            <h4 style="position: relative; top: 5%;">Crear Grupo</h4>
+                            
+                        </div>
+                        <form asp-controller="Usuarios" asp-action="CrearGrupo2">
+                            <div class="form-group">
+                                <input style="position:relative;top:9%;width:225px;left:1.4%" class="form-control" name="valor" placeholder="Nombre del grupo" />
+                            </div>
+                            <button type="submit" style="color:navy;position:absolute;  top: 7.5%;left:15.5%"> <i class="fa fa-paper-plane-o" aria-hidden="true"></i> </button>
+                        </form>
+                    </div>
+                    <div class="inbox_chat">
+                        <div class="chat_list;active_chat">
+                            @foreach (var k in ViewBag.Contactos)
+                            {
+                                @if (ViewBag.Contactos[0] == k)
+                                {
+                                    @if (k.tipo == true)
+                                    {
+                                        <div class="chat_people">
+                                            <div class="chat_img"> <img src="~/images/Grupos.png" alt="sunil"> </div>
+                                            <div class="chat_ib">
+                                                <h5>@k.nombre <a style="left: 35.3%; top: 15%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new {nombre = k.nombre,Num=k.num})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                            </div>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="chat_people">
+                                            <div class="chat_img"> <img src="~/images/Usuario.png" alt="sunil"> </div>
+                                            <div class="chat_ib">
+                                                @if (k.Usuario == ViewBag.Comprobar)
+                                                {
+                                                    <h5>@k.Usuario2 </h5>
+                                                    <a style="left: 35.3%; top: 15%; position: absolute " href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario2})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <h5>@k.Usuario <a style="left: 35.3%; top: 15%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    @if (k.tipo == true)
+                                    {
+                                        <div class="chat_people">
+                                            <div class="chat_img"> <img src="~/images/Grupos.png" alt="sunil"> </div>
+                                            <div class="chat_ib">
+                                                <h5>@k.nombre <a style="left: 35.3%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new {nombre = k.nombre,Num=k.num})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                            </div>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="chat_people">
+                                            <div class="chat_img"> <img src="~/images/Usuario.png" alt="sunil"> </div>
+                                            <div class="chat_ib">
+                                                @if (k.Usuario == ViewBag.Comprobar)
+                                                {
+                                                    <h5>@k.Usuario2 </h5>
+                                                    <a style="left: 35.3%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario2})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <h5>@k.Usuario <a style="left: 35.3%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    }
+                                }
 
 
+                            }
+                        </div>
+                    </div>
 
-
-
-        <div class="panel panel-default">
-            <div class="panel-body p-t-0">
-                <div class="input-group">
-                    <input type="text" id="BuscarContacto" name="BuscarContacto" class="form-control" placeholder="Buscar Contactos">
-                    <span class="input-group-btn">
-                        <a asp-controller="Usuarios" asp-action="Login" class="btn btn-effect-ripple btn-primary" role="button"><i class="fa fa-search"></i></a>
-
-                    </span>
                 </div>
+                <div class="mesgs">
+                    <div class="msg_history">
+                        @if (ViewBag.Tipo != null)
+                        {
+                            <div class="type_msg">
+                                <form asp-controller="Usuarios" asp-action="AgregarAlGrupo">
+                                    <div class="form-group">
+                                        @if (ViewBag.RespuestaAgregarGrupo != null)
+                                        {
+                                         <input class="form-control" placeholder="@ViewBag.RespuestaAgregarGrupo" name="UsuarioAgregar" />
 
+                                        }
+                                        else
+                                        {
+                                         <input class="form-control" placeholder="Agregar Usuario" name="UsuarioAgregar" />
 
+                                        }
+                                        <button class="msg_send_btn" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                    </div>
+                                </form>
 
+                            </div>
+                        }
+                        @foreach (var f in ViewBag.Mensajes)
+                        {
 
+                            @if (f.UsuarioE != ViewBag.Comprobar)
+                            {
+                                <div class="incoming_msg">
+                                    <div class="incoming_msg_img"> <img src="~/images/Usuario.png"> </div>
+                                    <div class="received_msg">
+                                        @f.UsuarioE
+                                        <div class="received_withd_msg">
+                                            @if (f.Texto != null)
+                                            {
+                                                <p>
+                                                    @f.Texto
+                                                </p>
+                                            }
 
+                                            <p>
+                                                <small>
+                                                    @if (f.FileString != null)
+                                                    {
+                                                        @f.FileStringOriginal
+                                                        @Html.ActionLink("Descargar", "DescargarArchivos", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num,ruta= f.Ruta})
+                                                    }
+                                                </small>
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="outgoing_msg">
+                                    <div class="sent_msg">
+                                        @if (f.Texto != null)
+                                        {
+                                            <p>
+                                                @f.Texto
+                                            </p>
+                                        }
+                                        <p>
+                                            <small>
+                                                @if (f.FileString != null)
+                                                {
+                                                    @f.FileStringOriginal
+                                                    @Html.ActionLink("Descargar", "DescargarArchivos", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num, ruta = f.Ruta })
+                                                }
+                                            </small>
+                                           
+                                        </p>
+
+                                        <small>
+                                            @Html.ActionLink("Eliminar para mi", "EliminarMensaje", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num, texto = f.Texto, fecha = f.Fecha, Paratodos = false })
+                                            @Html.ActionLink("Eliminar para Todos", "EliminarMensaje", new { Usuario = f.UsuarioE, Usuario2 = f.UsuarioR, nombre = f.GNombre, num = f.Num, texto = f.Texto, fecha = f.Fecha, Paratodos = true })
+                                        </small>
+                                    </div>
+                                </div>
+
+                            }
+                        }
+
+                    </div>
+                    <div class="type_msg">
+                        <form asp-controller="Usuarios" asp-action="MandarMensaje" method="post" enctype="multipart/form-data" >
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Escribe un mensaje" name="texto" />
+                                <input type="file" name="file">
+                                <button class="msg_send_btn" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            @foreach (var item in (ViewBag.contactos))
-            {
-
-
-                @if (item.tipo == true)
-                {
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="panel" style="position: relative; top: 120%; left: 50%">
-                                <div class="panel-body p-t-10">
-                                    <div class="media-main">
-                                        <a class="pull-left" href="#">
-                                            <img class="thumb-lg img-circle bx-s" src="~/images/Grupos.png" alt="">
-                                        </a>
-                                        <div class="pull-right btn-group-sm">
-                                            <a href="Chat" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat">
-                                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <h4>@item.nombre</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="panel" style="position: relative; top: 120%; left: 50%">
-                                <div class="panel-body p-t-10">
-                                    <div class="media-main">
-                                        <a class="pull-left" href="#">
-                                            <img class="thumb-lg img-circle bx-s" src="~/images/Usuario.png" alt="">
-                                        </a>
-                                        <div class="pull-right btn-group-sm">
-                                            <a href="Chat" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat">
-                                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <h4>@item.Usuario2</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
         </div>
     </div>
-</div>
+</body>
+</html>

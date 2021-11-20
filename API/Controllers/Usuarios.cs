@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.BD;
 using API.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
@@ -31,10 +33,33 @@ namespace API.Controllers
         [HttpPost("Contactos")]
         public IActionResult Contactos(UsuariosModel Usuario)
         {
-            Contactos temp = new Contactos();
-            temp.Usuario = Usuario.Usuario;
-            List<Contactos> respuesta = db2.Buscar(temp);
+            List<Contactos> respuesta = db2.Buscar(Usuario);
             return Ok(respuesta);
+
+        }
+        [HttpPost("BusquedaContacto")]
+        public IActionResult BusquedaContacto(Contactos chat)
+        {
+            Contactos temp = new Contactos();
+            temp = db2.Buscar2(chat);
+            return Ok(temp);
+
+        }
+        [HttpPost("ActualizarContacto")]
+        public IActionResult ActualizarContacto(Contactos Contacto)
+        {
+            Contactos temp = new Contactos();
+            temp = db2.Buscar2(Contacto);
+            Contacto.Id = temp.Id;
+            db2.ActualizarCont(Contacto);
+            return Ok();
+
+        }
+        [HttpPost("NuevoContacto")]
+        public IActionResult NuevoContacto(Contactos Contacto)
+        {
+            db2.AgregarCont(Contacto);
+            return Ok();
 
         }
 
@@ -86,5 +111,34 @@ namespace API.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost("ContactoGrupo")]
+        public IActionResult ContactoGrupo(Contactos Grupo)
+        {
+            List<Contactos> temp = new List<Contactos>();
+            temp = db2.BuscarGrupo(Grupo);
+            return Ok(temp);
+        }
+        [HttpPost("RetornarGrupo")]
+        public IActionResult RetornarGrupo(Contactos Grupo)
+        {
+            var x = db2.BuscarGrupoEsp(Grupo);
+            return Ok(x);
+        }
+        [HttpPost("BuscuarGruposUsuario")]
+        public IActionResult BuscuarGruposUsuario(UsuariosModel User)
+        {
+            List<Contactos> temp = new List<Contactos>();
+            temp = db2.BuscarGruposUsuario(User.Usuario);
+            return Ok(temp);
+        }
+        [HttpPost("ActualizarContactoGrupo")]
+        public IActionResult ActualizarContactoGrupo(Contactos valor)
+        {
+            var x = db2.BuscarGrupoEsp(valor);
+            valor.Id = x.Id;
+            db2.ActualizarContactoGrupo(valor);
+            return Ok();
+        }
+
     }
 }

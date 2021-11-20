@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,10 +10,12 @@ namespace API.Models.Data
         private readonly static Singleton _instance = new Singleton();
         public ICIFRADO CifrarSDES;
         public DiffieHellman Llaves;
+        public RSA CifrarRSA;
         private Singleton()
         {
             CifrarSDES = new SDES();
             Llaves = new DiffieHellman();
+            CifrarRSA = new RSA();
         }
         public static Singleton Instance
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace API.BD
         }
         public int cantidad()
         {
-            return Collection.Find(Cualquier=>true).ToList().Count();
+            return Collection.Find(Cualquier => true).ToList().Count();
         }
         public string insertar(UsuariosModel Usuarioinfo)
         {
@@ -31,7 +31,8 @@ namespace API.BD
                 return e.Message;
             }
         }
-        public UsuariosModel Buscar(UsuariosModel Usuarioinfo) {
+        public UsuariosModel Buscar(UsuariosModel Usuarioinfo)
+        {
             var filter = Builders<UsuariosModel>.Filter.Eq(s => s.Usuario, Usuarioinfo.Usuario);
             var results = Collection.Find(filter).ToList();
             UsuariosModel retornar = new UsuariosModel();
