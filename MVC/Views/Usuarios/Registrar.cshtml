@@ -1,33 +1,36 @@
 ﻿@model MVC.Models.Usuarios
 <body>
     <section class="fondoSignup">
-        <form asp-action="Registrar" style=" position: relative; top: 15%; left: 3%">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (ViewBag.Verificar != null) { 
+           <P style="color:darkblue;position:absolute;top:10.5%;left:3%">@ViewBag.Verificar</P>
+         }
+        <form asp-action="Registrar"style=" position: relative; top: 15%; left: 3%">
+            <div  asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="input-group mb-3" style="width: 450px">
+            <div class="input-group mb-3"style="width: 450px">
                 <label style="color:darkblue" asp-for="Usuario" class="control-label"></label>
-                <input style="height: 30px; position: relative; left: 1%" asp-for="Usuario" type="text" class="form-control" aria-label="x" aria-describedby="basic-addon2" required>
+                <input style="height: 30px; position: relative; left: 1%"  asp-for="Usuario" type="text" class="form-control"  aria-label="x" aria-describedby="basic-addon2" required>
                 <span style="position: relative; left: 55%" asp-validation-for="Usuario" class="text-danger"></span>
             </div>
-            <div class="input-group mb-3" style="width: 450px">
+            <div class="input-group mb-3"style="width: 450px">
                 <label style="color:darkblue" asp-for="Nombre" class="control-label"></label>
-                <input style=" height: 30px;position: relative; left: 1%" asp-for="Nombre" class="form-control" />
-                <span style="position: relative; left: 55% " asp-validation-for="Nombre" class="text-danger"></span>
+                <input  style=" height: 30px;position: relative; left: 1%"asp-for="Nombre" class="form-control" />
+                <span style="position: relative; left: 55% "asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="input-group mb-3" style="width: 450px">
+            <div class="input-group mb-3"style="width: 450px">
                 <label style="color:darkblue" asp-for="Apellido" class="control-label"></label>
-                <input style=" height: 30px;position: relative; left: 1%" asp-for="Apellido" class="form-control" />
-                <span style="position: relative; left: 55% " asp-validation-for="Apellido" class="text-danger"></span>
+                <input style=" height: 30px;position: relative; left: 1%"asp-for="Apellido" class="form-control" />
+                <span style="position: relative; left: 55% "asp-validation-for="Apellido" class="text-danger"></span>
             </div>
-            <div class="input-group mb-3" style="width: 450px">
+            <div class="input-group mb-3"style="width: 450px">
                 <label style="color:darkblue" asp-for="Contraseña" class="control-label"></label>
-                <input style=" height: 30px;position: relative; left: 1%" asp-for="Contraseña" class="form-control" />
-                <span style="position: relative; left: 55% " asp-validation-for="Contraseña" class="text-danger"></span>
+                <input  style=" height: 30px;position: relative; left: 1%"asp-for="Contraseña" class="form-control" />
+                <span style="position: relative; left: 55% "asp-validation-for="Contraseña" class="text-danger"></span>
             </div>
-            <div class="input-group mb-3" style="width: 450px">
+            <div class="input-group mb-3"style="width: 450px">
                 <label style="color:darkblue" asp-for="edad" class="control-label"></label>
                 <input style=" height: 30px;position: relative; left: 1%" asp-for="edad" class="form-control" />
-                <span style="position: relative; left: 55% " asp-validation-for="edad" class="text-danger"></span>
+                <span style="position: relative; left: 55% "asp-validation-for="edad" class="text-danger"></span>
             </div>
             <div class="input-group mb-3" style="width: 450px">
                 <label style="color:darkblue" asp-for="fecha" class="control-label"></label>

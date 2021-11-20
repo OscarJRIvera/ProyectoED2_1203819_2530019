@@ -18,7 +18,7 @@ namespace MVC.Models
         [Required]
         public string Contraseña { get; set; }
         [Required]
-        public int edad { get; set; }
+        public int edad{ get; set; }
         [Required]
         public DateTime fecha { get; set; }
         public int PublickKey { get; set; }

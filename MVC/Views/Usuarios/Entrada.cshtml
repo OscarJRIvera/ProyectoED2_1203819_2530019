@@ -1,4 +1,4 @@
-<a style="position: absolute; top: 0.5%; left: 70%; width: 300px" asp-controller="Usuarios" asp-action="Main" class="btn btn-danger" role="button">Logout</a>
+﻿<a style="position: absolute; top: 0.5%; left: 70%; width: 300px" asp-controller="Usuarios" asp-action="Main" class="btn btn-danger" role="button">Logout</a>
 <a style="position: absolute; top:0.5%; left: 10%; width: 300px" asp-controller="Usuarios" asp-action="Solicitudes" class="btn btn-warning" role="button">Solicitudes</a>
 <di<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -18,7 +18,7 @@
                     <div class="headind_srch">
                         <div class="recent_heading">
                             <h4 style="position: relative; top: 5%;">Crear Grupo</h4>
-
+                            
                         </div>
                         <form asp-controller="Usuarios" asp-action="CrearGrupo2">
                             <div class="form-group">
@@ -55,7 +55,8 @@
                                                 }
                                                 else
                                                 {
-                                                    <h5>@k.Usuario <a style="left: 35.3%; top: 15%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a></h5>
+                                                    <h5>@k.Usuario </h5><a style="left: 35.3%; top: 15%; position: absolute" href="@Url.Action("EntradaUsuarioActivo","Usuarios",new { valor = k.Usuario})" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Chat"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+
                                                 }
 
                                             </div>
