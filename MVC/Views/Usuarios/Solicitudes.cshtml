@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewData["Title"] = "Solicitudes";
 }
 <a style="position: absolute; top: 8%; left: 40%; width: 300px" asp-controller="Usuarios" asp-action="EntradaUsuarioActivo" class="btn btn-danger" role="button">Regresar</a>
@@ -6,11 +6,10 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <div class="container bootstrap snippets bootdey">
 
-        @if (ViewBag.Mensaje == "")
-        {
+        @if (ViewBag.Mensaje == "") {
 
             ViewBag.Mensaje = "Agregar Contacto";
-        }
+         }
 
 
 

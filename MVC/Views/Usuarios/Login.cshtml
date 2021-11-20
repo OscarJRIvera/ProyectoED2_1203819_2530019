@@ -3,7 +3,12 @@
 }
 <body>
     <section class="fondoLogin">
+        
         <form asp-action="Login" style=" position: relative; top: 33%; left: 8%">
+            @if (ViewBag.Verificar != null)
+            {
+                <p style="color:darkblue">@ViewBag.Verificar</p>
+            }
             <p style="color:darkblue">Por favor ingrese los siguientes datos para poder ingresar a MensajesRelevantes</p>
             <div class="input-group mb-3" style="width: 200px">
                 <label for="Usuario">Usuario:</label>

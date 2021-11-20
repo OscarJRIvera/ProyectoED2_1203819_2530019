@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +33,9 @@ namespace API.Controllers
         [HttpPost("Contactos")]
         public IActionResult Contactos(UsuariosModel Usuario)
         {
-            List<Contactos> respuesta = db2.Buscar(Usuario);
+            List<Contactos> respuesta =db2.Buscar(Usuario);
             return Ok(respuesta);
-
+           
         }
         [HttpPost("BusquedaContacto")]
         public IActionResult BusquedaContacto(Contactos chat)
@@ -68,11 +68,10 @@ namespace API.Controllers
         {
             try
             {
-                Usuario.SecretRandom = db.cantidad() + 1;
+                Usuario.SecretRandom = db.cantidad()+1;
                 Usuario.PublickKey = F.Llaves.Publickey(Usuario.SecretRandom);
-                var usuarioencontrado = db.Buscar(Usuario);
-                if (usuarioencontrado != null)
-                {
+               var usuarioencontrado=  db.Buscar(Usuario);
+                if (usuarioencontrado != null){
                     string json = "Este Usuario ya existe";
                     return BadRequest(json);
                 }
@@ -95,14 +94,14 @@ namespace API.Controllers
                     string json = "Usuario No existe";
                     return BadRequest(json);
                 }
-                if (usuarioencontrado.Contraseña == F.CifrarSDES.Cifrar(Usuario.Contraseña, 50))
+                if (usuarioencontrado.Contraseña == F.CifrarSDES.Cifrar(Usuario.Contraseña,50))
                 {
                     string json = "Exito";
                     return Ok(json);
                 }
                 else
                 {
-                    string json = "Usuario No existe";
+                    string json = "Contraseña incorrecta";
                     return BadRequest(json);
                 }
             }
@@ -112,8 +111,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("ContactoGrupo")]
-        public IActionResult ContactoGrupo(Contactos Grupo)
-        {
+        public IActionResult ContactoGrupo(Contactos Grupo) {
             List<Contactos> temp = new List<Contactos>();
             temp = db2.BuscarGrupo(Grupo);
             return Ok(temp);
@@ -139,6 +137,6 @@ namespace API.Controllers
             db2.ActualizarContactoGrupo(valor);
             return Ok();
         }
-
+       
     }
 }

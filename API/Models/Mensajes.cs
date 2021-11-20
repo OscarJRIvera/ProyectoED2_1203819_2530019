@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace API.Models
         public bool Esconder { get; set; }
         public bool Copy { get; set; }
         public string Texto { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set;}
         public string FileStringOriginal { get; set; }
         public int publickey1 { get; set; }
         public List<string> Usuarios { get; set; }

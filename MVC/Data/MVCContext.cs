@@ -9,7 +9,7 @@ namespace MVC.Data
 {
     public class MVCContext : DbContext
     {
-        public MVCContext(DbContextOptions<MVCContext> options)
+        public MVCContext (DbContextOptions<MVCContext> options)
             : base(options)
         {
         }
