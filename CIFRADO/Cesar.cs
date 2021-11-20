@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -19,7 +19,7 @@ namespace CIFRADO
         {
             File.Delete(Ruta);
         }
-        public void Cifrar(String Ruta1, String Ruta2, string llave)
+        public void Cifrar(String Ruta1, String Ruta2,string llave)
         {
             DWithkey = new Dictionary<int, byte>();
             Bibliotecas(llave);
@@ -48,7 +48,7 @@ namespace CIFRADO
             DWithkey = new Dictionary<int, byte>();
             Bibliotecas(llave);
             var TempD = new Dictionary<byte, int>();
-            foreach (var k in DWithkey)
+            foreach(var k in DWithkey)
             {
                 TempD.Add(k.Value, k.Key);
             }

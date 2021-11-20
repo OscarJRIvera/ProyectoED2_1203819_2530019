@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -56,7 +56,7 @@ namespace CIFRADO
                     ArchivoCoD.Write(escribir.ToArray());
                     ArchivoCoD.Flush();
                 }
-
+                
             }
             ArchivoCoD.Close();
             ArchivoOriginal.Close();
@@ -79,7 +79,7 @@ namespace CIFRADO
                     int doe = Convert.ToInt32(split[1]);
                     int doe2 = Convert.ToInt32(split[0]);
                     ochobit.Add(k);
-                    if (ochobit.ToArray().Length == 8)
+                    if (ochobit.ToArray().Length == 8) 
                     {
                         int bit = BitConverter.ToInt32(ochobit.ToArray());
                         BigInteger valorelevado = BigInteger.ModPow(bit, (BigInteger)doe, (BigInteger)doe2);
@@ -148,7 +148,7 @@ namespace CIFRADO
             int n = p * q;
             int fiN = (p - 1) * (q - 1);
             int coprimo = Coprimo(fiN);
-
+           
             int[,] matriz = new int[2, 2];
             matriz[0, 0] = fiN; matriz[1, 0] = fiN;
             matriz[0, 1] = coprimo; matriz[1, 1] = 1;
@@ -172,7 +172,7 @@ namespace CIFRADO
                 matriz[0, 1] = pos1;
                 matriz[1, 1] = pos2;
             }
-
+           
 
             string privada = n + "," + matriz[1, 1];
             string publica = n + "," + coprimo;
@@ -185,9 +185,9 @@ namespace CIFRADO
 
         public bool verificarprimo(int n)
         {
-            for (int i = 2; i < n; i++)
+            for (int i =2; i <n; i++)
             {
-                if (n % i == 0)
+                if (n % i==0)
                 {
                     return false;
                 }
@@ -213,26 +213,41 @@ namespace CIFRADO
                 segundoprimo++;
             }
             pyq[1] = segundoprimo;
-            string[] respuesta = llaves(pyq[0], pyq[1]);
+            string[] respuesta = llaves(pyq[0], pyq[1]); 
             return respuesta;
         }
 
-        public string Cifrar(string Texto, int publickey)
+        public string Cifrar(string Texto,int  publickey)
         {
             string[] llaves2 = ConseguirLlaves(publickey);
             string[] publicllave = llaves2[0].Split(",");
             int doe = Convert.ToInt32(publicllave[1]);
             int doe2 = Convert.ToInt32(publicllave[0]);
             string respuesta = "";
-            foreach (var c in Texto)
+            foreach(var c in Texto)
             {
-                byte valor = Convert.ToByte(c);
-                BigInteger valorelevado = BigInteger.ModPow(valor, (BigInteger)doe, (BigInteger)doe2);
-                byte[] arreglo = BitConverter.GetBytes((long)valorelevado);
-                foreach (var l in arreglo)
+                byte[] valornuevo = BitConverter.GetBytes(c);
+                foreach(byte bytes in valornuevo)
                 {
-                    respuesta = respuesta + Convert.ToChar(l);
+                    if (bytes != 0)
+                    {
+                        BigInteger valorelevado = BigInteger.ModPow(bytes, (BigInteger)doe, (BigInteger)doe2);
+                        byte[] arreglo = BitConverter.GetBytes((long)valorelevado);
+                        foreach (var l in arreglo)
+                        {
+                            respuesta = respuesta + Convert.ToChar(l);
+                        }
+                    }
+                   
                 }
+                
+                //byte valor= Convert.ToByte(c);
+                //BigInteger valorelevado = BigInteger.ModPow(valor, (BigInteger)doe, (BigInteger)doe2);
+                //byte[] arreglo = BitConverter.GetBytes((long)valorelevado);
+                //foreach (var l in arreglo)
+                //{
+                //    respuesta = respuesta + Convert.ToChar(l);
+                //}
 
             }
             return respuesta;
@@ -246,7 +261,7 @@ namespace CIFRADO
             int doe2 = Convert.ToInt32(privatellave[0]);
             string respuesta = "";
             List<byte> ochobit = new List<byte>();
-            foreach (var c in Texto)
+            foreach(var c in Texto)
             {
                 byte valor = Convert.ToByte(c);
                 ochobit.Add(valor);
@@ -254,7 +269,7 @@ namespace CIFRADO
                 {
                     int bit = BitConverter.ToInt32(ochobit.ToArray());
                     BigInteger valorelevado = BigInteger.ModPow(bit, (BigInteger)doe, (BigInteger)doe2);
-                    byte escribirbyte = Convert.ToByte((long)valorelevado);
+                    byte escribirbyte= Convert.ToByte((long)valorelevado);
                     respuesta = respuesta + Convert.ToChar(escribirbyte);
                     ochobit = new List<byte>();
                 }
